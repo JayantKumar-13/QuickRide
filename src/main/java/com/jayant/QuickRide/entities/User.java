@@ -2,10 +2,14 @@ package com.jayant.QuickRide.entities;
 
 import com.jayant.QuickRide.entities.enums.role;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "app_user")
 public class User {
 
