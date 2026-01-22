@@ -1,13 +1,8 @@
 package com.jayant.QuickRide.dto;
 
-import com.jayant.QuickRide.entities.Driver;
-import com.jayant.QuickRide.entities.Rider;
 import com.jayant.QuickRide.entities.enums.PaymentMethod;
 import com.jayant.QuickRide.entities.enums.RideStatus;
-import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +11,8 @@ public class RideDto {
 
 
     private Long id;
-    private Point pickupLocation;
-    private Point dropLocation;
+    private PointDto pickupLocation;
+    private PointDto dropLocation;
 
     private LocalDateTime createdTime;
 
@@ -32,4 +27,6 @@ public class RideDto {
 
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
+
+    private String otp;
 }

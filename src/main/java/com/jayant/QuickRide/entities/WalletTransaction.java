@@ -3,10 +3,16 @@ package com.jayant.QuickRide.entities;
 import com.jayant.QuickRide.entities.enums.TransactionMethod;
 import com.jayant.QuickRide.entities.enums.TransactionType;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class WalletTransaction {
 
     @Id
@@ -22,7 +28,7 @@ public class WalletTransaction {
     @OneToOne
     private Ride ride;
 
-    private String TransactionId;
+    private String transactionId;
 
     @ManyToOne
     private Wallet wallet;            // One wallet can have many transactions

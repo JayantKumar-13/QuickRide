@@ -4,6 +4,10 @@ import com.jayant.QuickRide.dto.DriverDto;
 import com.jayant.QuickRide.dto.RideDto;
 import com.jayant.QuickRide.dto.RideRequestDto;
 import com.jayant.QuickRide.dto.RiderDto;
+import com.jayant.QuickRide.entities.Rider;
+import com.jayant.QuickRide.entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -18,5 +22,9 @@ public interface RiderService {
 
     RiderDto getMyProfile();
 
-    List<RideDto> getAllMyRides();
+    Page<RideDto> getAllMyRides(PageRequest pageRequest);
+
+    Rider createNewRider(User savedUser);
+
+    Rider getCurrentRider();
 }

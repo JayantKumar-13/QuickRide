@@ -20,8 +20,10 @@ public class Driver {
     private Double rating;
     private Boolean available;
 
+    private String VehicleId;
+
     // Geometry for Hibernate to identify it as Spatial
     @Column(columnDefinition = "Geometry(Point,4326)")     // 4326 -> We are dealing with earth locations
-    Point currentLocation;
+    private Point currentLocation;
 
 }
