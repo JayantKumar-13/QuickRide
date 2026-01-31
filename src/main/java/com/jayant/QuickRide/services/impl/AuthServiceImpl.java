@@ -9,12 +9,17 @@ import com.jayant.QuickRide.entities.enums.role;
 import com.jayant.QuickRide.exceptions.ResourceNotFoundException;
 import com.jayant.QuickRide.exceptions.RuntimeConflictException;
 import com.jayant.QuickRide.repositories.UserRepository;
+import com.jayant.QuickRide.security.JWTService;
 import com.jayant.QuickRide.services.AuthService;
 import com.jayant.QuickRide.services.DriverService;
 import com.jayant.QuickRide.services.RiderService;
 import com.jayant.QuickRide.services.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +36,20 @@ public class AuthServiceImpl implements AuthService {
     private final RiderService riderService;
     private final WalletService walletService;
     private final DriverService driverService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
+
     @Override
-    public String login(String email, String password) {
-        return "";
+    public String[] login(String email, String password) {
+        Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email , password));
+
+        User user = (User) authentication.getPrincipal();
+
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return new String[]{accessToken, refreshToken};
     }
 
     @Override
@@ -46,6 +62,7 @@ public class AuthServiceImpl implements AuthService {
 
         User mappedUser = modelMapper.map(signUpDto, User.class);
         mappedUser.setRoles(Set.of(role.RIDER));         // By default user will be Rider
+        mappedUser.setPassword(passwordEncoder.encode(mappedUser.getPassword()));
         User savedUser = userRepository.save(mappedUser);
 
 //        create user related entities

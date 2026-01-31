@@ -1,0 +1,8 @@
+1). We can Implement The cancelRide , endRide and all the methods which are same to both driver and user by creating a base User class
+but that will not be a good practise as it will require a lot of if else blocks.
+
+2). Backend Testing , Timer Integrate from start to end Ride , Add logout API in auth controller
+
+3). \d tablename in postgres
+
+4). JWT is stateless , why ?

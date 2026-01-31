@@ -1,10 +1,10 @@
 package com.jayant.QuickRide.controllers;
 
-import com.jayant.QuickRide.dto.DriverDto;
-import com.jayant.QuickRide.dto.OnboardDriverDto;
-import com.jayant.QuickRide.dto.SignUpDto;
-import com.jayant.QuickRide.dto.UserDto;
+import com.jayant.QuickRide.dto.*;
 import com.jayant.QuickRide.services.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +27,17 @@ public class AuthController {
         return new ResponseEntity<>(authService.onboardNewDriver(userId,
                 onboardDriverDto.getVehicleId()), HttpStatus.CREATED);
     }
+
+    @PostMapping("/login")
+    ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String tokens[] = authService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+
+            Cookie cookie = new Cookie("token", tokens[1]);
+            cookie.setHttpOnly(true);
+
+            httpServletResponse.addCookie(cookie);
+
+            return ResponseEntity.ok(new LoginResponseDto(tokens[0]));
+        }
 
 }
